@@ -1,5 +1,6 @@
 from cli import parser_cli, get_interactive_input
 from fetcher import fetch_articles
+from storage import save_to_json
 import textwrap
 
 def main():
@@ -34,6 +35,9 @@ def main():
         wrapped_abstract = textwrap.fill(abstract, width=75, initial_indent="    Abstract: ", subsequent_indent="              ")
         print(wrapped_abstract)
         print("\n" + "-" * 80)
+
+    if args.output:
+        save_to_json(articles, args.output)
 
 if __name__ == "__main__":
     main()

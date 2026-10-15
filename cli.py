@@ -29,6 +29,13 @@ def parser_cli():
         help="Lists only Open-Accessible articles",
     )
 
+    parser.add_argument(
+        "-o",
+        "--output",
+        type=str,
+        help="The JSON file in which articles will be saved. (Don't forget to add the .json! )"
+    )
+
     return parser.parse_args()
 
 # INTERACTIVE INPUT
@@ -68,15 +75,37 @@ def get_interactive_input():
     )
 
     open_access_input = get_input(
-        "Open the filter for open access articles? (Y/n, default: n) > ",
+        "Open the filter for open access articles? (y/n, default: n) > ",
         str,
-        "Please enter 'Y' or 'n'!",
+        "Please enter 'y' or 'n'!",
         default="n",
         validator=lambda x: x.lower() in ["y", "n"]
     ).lower()
 
     open_access = open_access_input == "y"
 
+    save_input = get_input(
+        "Save the articles in a JSON file? (y/n, default: n) > ",
+        str,
+        "Please enter 'y' or 'n'!",
+        default="n",
+        validator=lambda x: x.lower() in ["y", "n"]
+    ).lower()
+
+    output = None
+
+    if save_input == "y":
+        output = get_input(
+            "Name of the JSON file (default: article) > ",
+            str,
+            "File name cannot be empty",
+            default="article",
+            validator=lambda x: len(x) > 0
+        )
+
+        if not output.endswith(".json"):
+            output += ".json"
+
     return argparse.Namespace(
-        query=query, limit=limit, open_access=open_access
+        query=query, limit=limit, open_access=open_access, output= output
     )

@@ -23,7 +23,7 @@ def fetch_articles(query: str, limit: int=5, open_access: bool=False):
         print(f"Error: The API request failed --> {e}")
         return []
 
-    raw_result = data.get("resultList").get("result")
+    raw_result = data.get("resultList", {}).get("result", [])
     articles = []
 
     for item in raw_result:
