@@ -14,6 +14,11 @@ flowchart TD
     G -- No --> H[Display API Error Message]
     G -- Yes --> I[Parse JSON & Prepare Data]
     I --> J[Display Prepared Terminal Output]
+    J --> K{Output File Specified?}
+    K -- Yes --> L[Save Articles to JSON File]
+    K -- No --> M[End]
+    L --> M
+    
 ```
 
 ## Usage
